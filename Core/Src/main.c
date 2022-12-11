@@ -228,7 +228,7 @@ void StartDefaultTask(void *argument)
   {
 	char data;
 	(void)CDC_Receiveq_HS(&data, portMAX_DELAY);
-	(void)CDC_Transmit_FS((uint8_t*)&data, 1);
+	(void)CDC_Transmit_FS((uint8_t*)&data, 768);
   }
   /* USER CODE END 5 */
 }
