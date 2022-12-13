@@ -205,7 +205,7 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void init_usb_rtos_obj(void);
-BaseType_t CDC_Receiveq_HS(char *data, TickType_t timeout);
+BaseType_t CDC_Receiveq_FS(char *data, TickType_t timeout);
 uint8_t buffer[128];
 uint32_t len = 0;
 /* USER CODE END 4 */
@@ -223,12 +223,16 @@ void StartDefaultTask(void *argument)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 5 */
   init_usb_rtos_obj();
+  uint8_t data[128];
+  int qtd;
   /* Infinite loop */
   for(;;)
   {
-	char data;
-	(void)CDC_Receiveq_HS(&data, portMAX_DELAY);
-	(void)CDC_Transmit_FS((uint8_t*)&data, 768);
+	//char data;
+	//(void)CDC_Receiveq_HS(&data, portMAX_DELAY);
+	qtd = receive_usb_data(data, 128, portMAX_DELAY);
+	//(void)CDC_Transmit_FS((uint8_t*)&data, 768);
+	(void)queue_print_usb(data, qtd, portMAX_DELAY);
   }
   /* USER CODE END 5 */
 }
