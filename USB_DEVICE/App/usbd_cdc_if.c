@@ -131,9 +131,8 @@ static int8_t CDC_DeInit_FS(void);
 static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length);
 static int8_t CDC_Receive_FS(uint8_t* pbuf, uint32_t *Len);
 static int8_t CDC_TransmitCplt_FS(uint8_t *pbuf, uint32_t *Len, uint8_t epnum);
-void queue_print(char *data, int size);
+//void queue_print(char *data, int size);
 void Print_Task(void *param);
-static BaseType_t prvTaskStatsCommand(char *pcWriteBuffer, size_t xWriteBufferLen, const char *pcCommandString);
 size_t receive_usb_data(uint8_t *data, int size, TickType_t timeout);
 void queue_print_usb(uint8_t *data, int size, TickType_t timeout);
 
@@ -348,6 +347,8 @@ void init_usb_rtos_obj(void){
 	xMessageBuffer = xMessageBufferCreate(768);
 	rMessageBuffer = xMessageBufferCreate(768);
 	usb_is_on = 1;
+
+	xTaskCreate(Print_Task, "print_task", 512, NULL, 2, NULL);
 }
 
 uint32_t is_usb_on(void){
@@ -384,13 +385,13 @@ size_t receive_usb_data(uint8_t *data, int size, TickType_t timeout){
 void queue_print_usb(uint8_t *data, int size, TickType_t timeout){
 	if(xSemaphoreTake(mutex_usb, portMAX_DELAY) == pdTRUE) {
 		xMessageBufferSend(xMessageBuffer, data, size, portMAX_DELAY);
-		xSemaphoreTake(sem_usb_tx, portMAX_DELAY);
+		xSemaphoreGive(mutex_usb);
 	}
 }
 
-void queue_print(char *data, int size){
-	xMessageBufferSend(xMessageBuffer, data, size, portMAX_DELAY);
-}
+//void queue_print(char *data, int size){
+//	xMessageBufferSend(xMessageBuffer, data, size, portMAX_DELAY);
+//}
 
 void Print_Task(void *param){
 	char buffer[768];
@@ -401,7 +402,6 @@ void Print_Task(void *param){
 		CDC_Transmit_FS((uint8_t *)buffer, qtd);
 	}
 }
-
 
 /* USER CODE END PRIVATE_FUNCTIONS_IMPLEMENTATION */
 
