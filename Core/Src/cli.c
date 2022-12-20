@@ -4,6 +4,22 @@
 static const int8_t * const pcWelcomeMessage =
   "FreeRTOS command server.rnType Help to view a list of registered commands.rn";
 
+static const CLI_Command_Definition_t xTasksCommand =
+    {
+        "tasks",
+        "\r\ntasks:\r\n Lists all the installed tasks\r\n\r\n",
+        prvTaskStatsCommand,
+        0
+    };
+
+static const CLI_Command_Definition_t xTasksTexto =
+    {
+        "texto",
+        "\r\ntexto:\r\n Quer testar o texte?\r\n\r\n",
+        prvTaskStatsTexto,
+        0
+    };
+
 void vCommandConsoleTask( void *pvParameters )
 {
     //Peripheral_Descriptor_t xConsole;
