@@ -78,6 +78,7 @@
 #define configUSE_COUNTING_SEMAPHORES            1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION  0
 /* USER CODE BEGIN MESSAGE_BUFFER_LENGTH_TYPE */
+#define configCOMMAND_INT_MAX_OUTPUT_SIZE		 512
 /* Defaults to size_t for backward compatibility, but can be changed
    if lengths will always be less than the number of bytes in a size_t. */
 #define configMESSAGE_BUFFER_LENGTH_TYPE         size_t
@@ -167,6 +168,8 @@ standard names. */
 #define USE_CUSTOM_SYSTICK_HANDLER_IMPLEMENTATION 0
 
 /* USER CODE BEGIN Defines */
+#define configCOMMAND_INT_MAX_OUTPUT_SIZE        512
+#define configUSE_STATS_FORMATTING_FUNCTIONS     1
 /* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
 /* USER CODE END Defines */
 
