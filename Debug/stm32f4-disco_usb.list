@@ -7,19 +7,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         0000b4dc  08000190  08000190  00010190  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000114  0800b66c  0800b66c  0001b66c  2**2
+  2 .rodata       00000124  0800b66c  0800b66c  0001b66c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  0800b780  0800b780  00020164  2**0
+  3 .ARM.extab    00000000  0800b790  0800b790  00020164  2**0
                   CONTENTS
-  4 .ARM          00000008  0800b780  0800b780  0001b780  2**2
+  4 .ARM          00000008  0800b790  0800b790  0001b790  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  0800b788  0800b788  00020164  2**0
+  5 .preinit_array 00000000  0800b798  0800b798  00020164  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  0800b788  0800b788  0001b788  2**2
+  6 .init_array   00000004  0800b798  0800b798  0001b798  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  0800b78c  0800b78c  0001b78c  2**2
+  7 .fini_array   00000004  0800b79c  0800b79c  0001b79c  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         00000164  20000000  0800b790  00020000  2**2
+  8 .data         00000164  20000000  0800b7a0  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
   9 .ccmram       00000000  10000000  10000000  00020164  2**0
                   CONTENTS
@@ -29,23 +29,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  12 .ARM.attributes 00000030  00000000  00000000  00020164  2**0
                   CONTENTS, READONLY
- 13 .debug_info   0002093e  00000000  00000000  00020194  2**0
+ 13 .debug_info   00020a3b  00000000  00000000  00020194  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 000049bc  00000000  00000000  00040ad2  2**0
+ 14 .debug_abbrev 000049c1  00000000  00000000  00040bcf  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 000019c8  00000000  00000000  00045490  2**3
+ 15 .debug_aranges 000019d8  00000000  00000000  00045590  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_ranges 000017e0  00000000  00000000  00046e58  2**3
+ 16 .debug_ranges 000017f0  00000000  00000000  00046f68  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  00006837  00000000  00000000  00048638  2**0
+ 17 .debug_macro  00006586  00000000  00000000  00048758  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   0001e0e0  00000000  00000000  0004ee6f  2**0
+ 18 .debug_line   0001e2a7  00000000  00000000  0004ecde  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000d8989  00000000  00000000  0006cf4f  2**0
+ 19 .debug_str    000d89fb  00000000  00000000  0006cf85  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000050  00000000  00000000  001458d8  2**0
+ 20 .comment      00000050  00000000  00000000  00145980  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00006f08  00000000  00000000  00145928  2**2
+ 21 .debug_frame  00006f54  00000000  00000000  001459d0  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -416,7 +416,7 @@ int main(void)
   while (1)
  80004fc:	e7fe      	b.n	80004fc <main+0x28>
  80004fe:	bf00      	nop
- 8000500:	0800b6e4 	.word	0x0800b6e4
+ 8000500:	0800b6f4 	.word	0x0800b6f4
  8000504:	08000631 	.word	0x08000631
  8000508:	20000180 	.word	0x20000180
 
@@ -1177,7 +1177,7 @@ LoopFillZerobss:
   ldr r1, =_edata
  8000890:	20000164 	.word	0x20000164
   ldr r2, =_sidata
- 8000894:	0800b790 	.word	0x0800b790
+ 8000894:	0800b7a0 	.word	0x0800b7a0
   ldr r2, =_sbss
  8000898:	20000164 	.word	0x20000164
   ldr r4, =_ebss
@@ -6834,7 +6834,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
  8002a0e:	bf00      	nop
  8002a10:	40023c00 	.word	0x40023c00
  8002a14:	40023800 	.word	0x40023800
- 8002a18:	0800b708 	.word	0x0800b708
+ 8002a18:	0800b718 	.word	0x0800b718
  8002a1c:	20000000 	.word	0x20000000
  8002a20:	20000004 	.word	0x20000004
 
@@ -7136,7 +7136,7 @@ uint32_t HAL_RCC_GetPCLK2Freq(void)
  8002c64:	4618      	mov	r0, r3
  8002c66:	bd80      	pop	{r7, pc}
  8002c68:	40023800 	.word	0x40023800
- 8002c6c:	0800b718 	.word	0x0800b718
+ 8002c6c:	0800b728 	.word	0x0800b728
 
 08002c70 <HAL_RCC_GetClockConfig>:
   * will be configured.
@@ -23337,9 +23337,9 @@ static void prvInitialiseNewStreamBuffer( StreamBuffer_t * const pxStreamBuffer,
  80086ea:	3720      	adds	r7, #32
  80086ec:	46bd      	mov	sp, r7
  80086ee:	bd80      	pop	{r7, pc}
- 80086f0:	0800b740 	.word	0x0800b740
- 80086f4:	0800b760 	.word	0x0800b760
- 80086f8:	0800b720 	.word	0x0800b720
+ 80086f0:	0800b750 	.word	0x0800b750
+ 80086f4:	0800b770 	.word	0x0800b770
+ 80086f8:	0800b730 	.word	0x0800b730
 
 080086fc <prvAddNewTaskToReadyList>:
 /*-----------------------------------------------------------*/
@@ -26801,7 +26801,7 @@ BaseType_t xReturn = pdFAIL;
  8009988:	46bd      	mov	sp, r7
  800998a:	bd80      	pop	{r7, pc}
  800998c:	20000ec0 	.word	0x20000ec0
- 8009990:	0800b680 	.word	0x0800b680
+ 8009990:	0800b690 	.word	0x0800b690
  8009994:	08009ad1 	.word	0x08009ad1
  8009998:	20000ec4 	.word	0x20000ec4
 
@@ -27901,7 +27901,7 @@ static void prvCheckForValidListAndQueue( void )
  8009f98:	20000ebc 	.word	0x20000ebc
  8009f9c:	20000f6c 	.word	0x20000f6c
  8009fa0:	20000ecc 	.word	0x20000ecc
- 8009fa4:	0800b688 	.word	0x0800b688
+ 8009fa4:	0800b698 	.word	0x0800b698
 
 08009fa8 <pxPortInitialiseStack>:
 
@@ -29861,7 +29861,7 @@ void init_usb_rtos_obj(void){
  800ab1c:	2000a2c8 	.word	0x2000a2c8
  800ab20:	2000a2cc 	.word	0x2000a2cc
  800ab24:	2000a2d0 	.word	0x2000a2d0
- 800ab28:	0800b690 	.word	0x0800b690
+ 800ab28:	0800b6a0 	.word	0x0800b6a0
  800ab2c:	0800aba9 	.word	0x0800aba9
 
 0800ab30 <receive_usb_data>:
@@ -30072,7 +30072,7 @@ uint8_t * USBD_FS_ProductStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length
  800ac6c:	bd80      	pop	{r7, pc}
  800ac6e:	bf00      	nop
  800ac70:	2000a2d4 	.word	0x2000a2d4
- 800ac74:	0800b69c 	.word	0x0800b69c
+ 800ac74:	0800b6ac 	.word	0x0800b6ac
 
 0800ac78 <USBD_FS_ManufacturerStrDescriptor>:
   * @param  speed : Current device speed
@@ -30101,7 +30101,7 @@ uint8_t * USBD_FS_ManufacturerStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *l
  800ac94:	46bd      	mov	sp, r7
  800ac96:	bd80      	pop	{r7, pc}
  800ac98:	2000a2d4 	.word	0x2000a2d4
- 800ac9c:	0800b6b4 	.word	0x0800b6b4
+ 800ac9c:	0800b6c4 	.word	0x0800b6c4
 
 0800aca0 <USBD_FS_SerialStrDescriptor>:
   * @param  speed : Current device speed
@@ -30180,7 +30180,7 @@ uint8_t * USBD_FS_ConfigStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
  800acf4:	bd80      	pop	{r7, pc}
  800acf6:	bf00      	nop
  800acf8:	2000a2d4 	.word	0x2000a2d4
- 800acfc:	0800b6c8 	.word	0x0800b6c8
+ 800acfc:	0800b6d8 	.word	0x0800b6d8
 
 0800ad00 <USBD_FS_InterfaceStrDescriptor>:
   * @param  speed : Current device speed
@@ -30224,7 +30224,7 @@ uint8_t * USBD_FS_InterfaceStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *leng
  800ad30:	bd80      	pop	{r7, pc}
  800ad32:	bf00      	nop
  800ad34:	2000a2d4 	.word	0x2000a2d4
- 800ad38:	0800b6d4 	.word	0x0800b6d4
+ 800ad38:	0800b6e4 	.word	0x0800b6e4
 
 0800ad3c <Get_SerialNum>:
   * @brief  Create the serial number string descriptor
@@ -31543,10 +31543,10 @@ USBD_StatusTypeDef USBD_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800b48a:	4798      	blx	r3
  800b48c:	3601      	adds	r6, #1
  800b48e:	e7f2      	b.n	800b476 <__libc_init_array+0x1e>
- 800b490:	0800b788 	.word	0x0800b788
- 800b494:	0800b788 	.word	0x0800b788
- 800b498:	0800b788 	.word	0x0800b788
- 800b49c:	0800b78c 	.word	0x0800b78c
+ 800b490:	0800b798 	.word	0x0800b798
+ 800b494:	0800b798 	.word	0x0800b798
+ 800b498:	0800b798 	.word	0x0800b798
+ 800b49c:	0800b79c 	.word	0x0800b79c
 
 0800b4a0 <__retarget_lock_acquire_recursive>:
  800b4a0:	4770      	bx	lr
