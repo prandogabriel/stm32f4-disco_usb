@@ -6,19 +6,47 @@ static const int8_t * const pcWelcomeMessage =
 
 void vCommandConsoleTask( void *pvParameters )
 {
-Peripheral_Descriptor_t xConsole;
-int8_t cRxedChar, cInputIndex = 0;
-BaseType_t xMoreDataToFollow;
-/* The input and output buffers are declared static to keep them off the stack. */
-static int8_t pcOutputString[ MAX_OUTPUT_LENGTH ], pcInputString[ MAX_INPUT_LENGTH ];
+    //Peripheral_Descriptor_t xConsole;
+    //int8_t cRxedChar, cInputIndex = 0;
+    //BaseType_t xMoreDataToFollow;
+    /* The input and output buffers are declared static to keep them off the stack. */
+    //static int8_t pcOutputString[ MAX_OUTPUT_LENGTH ], pcInputString[ MAX_INPUT_LENGTH ];
 
     /* This code assumes the peripheral being used as the console has already
     been opened and configured, and is passed into the task as the task
     parameter.  Cast the task parameter to the correct type. */
-    xConsole = ( Peripheral_Descriptor_t ) pvParameters;
+    //xConsole = ( Peripheral_Descriptor_t ) pvParameters;
 
     /* Send a welcome message to the user knows they are connected. */
-    FreeRTOS_write( xConsole, pcWelcomeMessage, strlen( pcWelcomeMessage ) );
+    //FreeRTOS_write( xConsole, pcWelcomeMessage, strlen( pcWelcomeMessage ) );
+    /* init code for USB_DEVICE */
+    MX_USB_DEVICE_Init();
+    /* USER CODE BEGIN 5 */
+    init_usb_rtos_obj();
+    //char data[32];
+	int qtd;
+    /* Infinite loop */
+	//Peripheral_Descriptor_t xConsole;
+	int8_t cInputIndex = 0;
+
+	FreeRTOS_CLIRegisterCommand( &xTasksCommand );
+	FreeRTOS_CLIRegisterCommand( &xTasksTexto );
+	char data;
+
+	static const int8_t * const pcWelcomeMessage =
+	  "FreeRTOS command server.rnType Help to view a list of registered commands.rn";
+	BaseType_t xMoreDataToFollow;
+	/* The input and output buffers are declared static to keep them off the stack. */
+	static int8_t pcOutputString[ MAX_OUTPUT_LENGTH ], pcInputString[ MAX_INPUT_LENGTH ];
+
+	/* This code assumes the peripheral being used as the console has already
+	been opened and configured, and is passed into the task as the task
+    parameter.  Cast the task parameter to the correct type. */
+	//xConsole = ( Peripheral_Descriptor_t ) pvParameters;
+
+	/* Send a welcome message to the user knows they are connected. */
+	(void)queue_print(pcWelcomeMessage, strlen( pcWelcomeMessage ));//write
+	//  FreeRTOS_write( xConsole, pcWelcomeMessage, strlen( pcWelcomeMessage ) );
 
     for( ;; )
     {
