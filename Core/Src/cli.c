@@ -2,12 +2,23 @@
 #include "FreeRTOS_CLI.h"
 #include "string.h"
 
+#include "usbd_cdc_if.h"
+#include "usb_device.h"
+
 #define MAX_INPUT_LENGTH    50
 #define MAX_OUTPUT_LENGTH   100
 
 static BaseType_t prvTaskStatsCommand( char *pcWriteBuffer,
                                           size_t xWriteBufferLen,
                                           const char *pcCommandString );
+
+static BaseType_t prvHarmonicsStatsCommand( char *pcWriteBuffer,
+                                          size_t xWriteBufferLen,
+                                          const char *pcCommandString );
+
+static BaseType_t prvHelpCommand( char *pcWriteBuffer,
+                                          size_t xWriteBufferLen,
+                                          const char *pcCommandString );                                          
 
 static const int8_t * const pcWelcomeMessage =
   "FreeRTOS command server.rnType Help to view a list of registered commands.rn";
@@ -17,6 +28,22 @@ static const CLI_Command_Definition_t xTasksCommand =
 	"tasks",
 	"\r\ntasks:\r\n Lists all the installed tasks\r\n\r\n",
 	prvTaskStatsCommand,
+	0
+};
+
+static const CLI_Command_Definition_t xHarmonicsCommand =
+{
+	"harmonics",
+	"\r\nharmonics:\r\n List of harmonics of a signal received by a microcontroller A/D converter\r\n\r\n",
+	prvHarmonicsStatsCommand,
+	0
+};
+
+static const CLI_Command_Definition_t xHelpCommand =
+{
+	"Help",
+	"\r\nhelp:\r\n Returns the command manual\r\n\r\n",
+	prvHelpCommand,
 	0
 };
 
@@ -49,11 +76,12 @@ void vCommandConsoleTask( void *pvParameters )
 	cInputIndex = 0;
 
 	FreeRTOS_CLIRegisterCommand( &xTasksCommand );
-	//FreeRTOS_CLIRegisterCommand( &xTasksHelp );
+	FreeRTOS_CLIRegisterCommand( &xHarmonicsCommand );
+    FreeRTOS_CLIRegisterCommand( &xHelpCommand );
 	char data;
 
-	static const int8_t * const pcWelcomeMessage =
-	  "FreeRTOS command server.rnType Help to view a list of registered commands.rn";
+	//static const int8_t * const pcWelcomeMessage =
+	//  "FreeRTOS command server.rnType Help to view a list of registered commands.rn";
 	//BaseType_t xMoreDataToFollow;
 	/* The input and output buffers are declared static to keep them off the stack. */
 	static int8_t pcOutputString[ MAX_OUTPUT_LENGTH ], pcInputString[ MAX_INPUT_LENGTH ];
@@ -64,7 +92,9 @@ void vCommandConsoleTask( void *pvParameters )
 	//xConsole = ( Peripheral_Descriptor_t ) pvParameters;
 
 	/* Send a welcome message to the user knows they are connected. */
-	(void)queue_print(pcWelcomeMessage, strlen( pcWelcomeMessage ));//write
+    //qtd = receive_usb_data(data, 128, portMAX_DELAY);
+    (void)queue_print_usb(pcWelcomeMessage, strlen( pcWelcomeMessage ), portMAX_DELAY);
+	//(void)queue_print(pcWelcomeMessage, strlen( pcWelcomeMessage ));//write
 	//  FreeRTOS_write( xConsole, pcWelcomeMessage, strlen( pcWelcomeMessage ) );
 
     for( ;; )
@@ -72,14 +102,15 @@ void vCommandConsoleTask( void *pvParameters )
         /* This implementation reads a single character at a time.  Wait in the
         Blocked state until a character is received. */
        // FreeRTOS_read( xConsole, &cRxedChar, sizeof( cRxedChar ) );
-
-        if( cRxedChar == '\n' )
+        qtd = receive_usb_data(data, 128, portMAX_DELAY);
+        
+        if( cRxedChar == '\n' ) // Talvez precise alterar aqui pra ser a variável data
         {
             /* A newline character was received, so the input command string is
             complete and can be processed.  Transmit a line separator, just to
             make the output easier to read. */
            // FreeRTOS_write( xConsole, "\r\n", strlen( "\r\n" );
-
+            (void)queue_print_usb(data, qtd, portMAX_DELAY);
             /* The command interpreter is called repeatedly until it returns
             pdFALSE.  See the "Implementing a command" documentation for an
             exaplanation of why this is. */
@@ -172,6 +203,7 @@ static BaseType_t prvHarmonicsStatsCommand( char *pcWriteBuffer,
 {
     /* The entire table was written directly to the output buffer.  Execution
     of this command is complete, so return pdFALSE. */
+    
     return pdFALSE;
 }
 
